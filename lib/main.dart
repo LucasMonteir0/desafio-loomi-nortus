@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 
+import "modules/commons/config/dependency_injection.dart";
 import "modules/commons/utils/cache/app_cache.dart";
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AppCache.instance.init();
+  DependencyInjection.init();
+  await AppCache.instance.init();
   runApp(const MyApp());
 }

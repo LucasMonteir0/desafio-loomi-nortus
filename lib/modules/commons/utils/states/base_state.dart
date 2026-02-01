@@ -40,3 +40,10 @@ final class ErrorState extends BaseState {
   @override
   List<Object?> get props => [error];
 }
+
+extension BaseStateExtension on BaseState {
+  bool get isInitial => this is InitialState;
+  bool get isLoading => this is LoadingState;
+  bool get isSuccess => this is SuccessState;
+  bool get isError => this is ErrorState;
+}

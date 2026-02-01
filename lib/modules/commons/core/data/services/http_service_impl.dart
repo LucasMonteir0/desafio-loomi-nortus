@@ -1,3 +1,4 @@
+import "dart:convert";
 import "package:dio/dio.dart";
 import "package:flutter/foundation.dart";
 
@@ -5,7 +6,7 @@ import "../../domain/entities/api/api_error.dart";
 import "../../domain/entities/api/api_response.dart";
 import "../../domain/services/http_service.dart";
 
-class HttpServiceImpl extends HttpService {
+class HttpServiceImpl implements HttpService {
   final Dio _dio;
 
   HttpServiceImpl(this._dio) {
@@ -77,17 +78,52 @@ class HttpServiceImpl extends HttpService {
 
   @override
   Future<ApiResponse<T>> post<T>(String path, {dynamic data}) async {
-    return await _request<T>(_dio.post(path, data: data));
+    final response = await _dio.post(
+      path,
+      data: data,
+      options: Options(
+        responseType: ResponseType.plain,
+        headers: {"Accept": "*/*", "Content-Type": "application/json"},
+      ),
+    );
+
+    if (response.data is String) {
+      String body = response.data as String;
+      // Remove trailing commas before closing braces/brackets
+      body = body.replaceAll(RegExp(r',\s*}'), '}');
+      body = body.replaceAll(RegExp(r',\s*]'), ']');
+      try {
+        response.data = jsonDecode(body);
+      } catch (e) {
+        if (kDebugMode) {
+          print("JSON parsing failed after sanitization: $e");
+        }
+      }
+    }
+
+    return await _request<T>(Future.value(response as Response<T>));
   }
 
   @override
   Future<ApiResponse<T>> put<T>(String path, {dynamic data}) async {
-    return await _request<T>(_dio.put(path, data: data));
+    return await _request<T>(
+      _dio.put(
+        path,
+        data: data,
+        options: Options(headers: {"Accept": "application/json"}),
+      ),
+    );
   }
 
   @override
   Future<ApiResponse<T>> delete<T>(String path, {dynamic data}) async {
-    return await _request<T>(_dio.delete(path, data: data));
+    return await _request<T>(
+      _dio.delete(
+        path,
+        data: data,
+        options: Options(headers: {"Accept": "application/json"}),
+      ),
+    );
   }
 
   @override

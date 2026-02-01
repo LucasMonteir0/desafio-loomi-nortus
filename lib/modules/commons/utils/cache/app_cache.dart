@@ -7,7 +7,7 @@ class AppCache {
 
   late final SharedPreferences _prefs;
 
-  late final bool _isLogged;
+  late bool _isLogged;
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();

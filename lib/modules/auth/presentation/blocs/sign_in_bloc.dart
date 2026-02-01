@@ -22,6 +22,7 @@ class SignInBloc extends Cubit<BaseState> {
 
     if (result.isSuccess) {
       AppCache.instance.setRememberUser(rememberUser);
+      AppCache.instance.setIsLogged(true);
       emit(SuccessState<bool>(result.data!));
       return;
     }

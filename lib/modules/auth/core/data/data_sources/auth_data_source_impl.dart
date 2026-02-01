@@ -1,3 +1,5 @@
+import "package:dio/dio.dart";
+
 import "../../../../commons/config/dependency_injection.dart";
 import "../../../../commons/config/urls.dart";
 import "../../../../commons/core/domain/entities/api/api_error.dart";
@@ -24,8 +26,10 @@ class AuthDataSourceImpl implements AuthDataSource {
         );
       }
 
-      final body = {"login": login, "password": password};
-      await _http.post("${Urls.baseUrl}/auth", data: body);
+      await _http.post<dynamic>(
+        "${Urls.baseUrl}/auth",
+        data: {"login": login, "password": password},
+      );
 
       return ResultWrapper.success(true);
     } on ApiError catch (e) {

@@ -8,7 +8,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppRouter.router.go(Routes.auth);
+    AppRouter.router.go(Routes.home);
     return MaterialApp.router(
       title: "Nortus",
       debugShowCheckedModeBanner: false,

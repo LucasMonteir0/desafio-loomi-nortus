@@ -1,3 +1,4 @@
+import "../../../../commons/utils/cache/app_cache.dart";
 import "../../domain/entities/news_item_entity.dart";
 import "author_model.dart";
 import "news_image_model.dart";
@@ -11,6 +12,7 @@ class NewsItemModel extends NewsItemEntity {
     required super.publishedAt,
     required super.summary,
     required super.authors,
+    required super.isFavorite,
   });
 
   factory NewsItemModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class NewsItemModel extends NewsItemEntity {
       authors: (json["authors"] as List<dynamic>)
           .map((e) => AuthorModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isFavorite: AppCache.instance.isFavoriteNews(id: json["id"] as int),
     );
   }
 }

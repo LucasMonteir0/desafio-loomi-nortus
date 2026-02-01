@@ -23,9 +23,12 @@ class NewsDataSourceImpl implements NewsDataSource {
   @override
   Future<ResultWrapper<Pagination<NewsItemEntity>>> getNews(int page) async {
     try {
-      final response = await _http.get<Map<String, dynamic>>(
-        "${Urls.baseUrl}/news?page=$page",
-      );
+      final futures = await Future.wait([
+        _http.get<Map<String, dynamic>>("${Urls.baseUrl}/news?page=$page"),
+        Future.delayed(const Duration(seconds: 3)),
+      ]);
+
+      final response = futures.first;
 
       final pagination = PaginationModel.fromResponse<NewsItemEntity>(
         response.data!,
@@ -46,9 +49,12 @@ class NewsDataSourceImpl implements NewsDataSource {
   @override
   Future<ResultWrapper<NewsDetailEntity>> getNewsDetails(int id) async {
     try {
-      final response = await _http.get<Map<String, dynamic>>(
-        "${Urls.baseUrl}/news/$id/details",
-      );
+      final futures = await Future.wait([
+        _http.get<Map<String, dynamic>>("${Urls.baseUrl}/news/$id/details"),
+        Future.delayed(const Duration(seconds: 3)),
+      ]);
+
+      final response = futures.first;
 
       final detail = NewsDetailModel.fromJson(response.data!);
       return ResultWrapper.success(detail);

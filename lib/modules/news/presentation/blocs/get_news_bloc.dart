@@ -2,9 +2,9 @@ import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../../commons/config/dependency_injection.dart";
 import "../../../commons/core/domain/entities/pagination.dart";
+import "../../../commons/utils/states/pagination_state.dart";
 import "../../core/domain/entities/news_item_entity.dart";
 import "../../core/domain/use_cases/get_news/get_news_use_case.dart";
-import "../states/pagination_state.dart";
 
 class GetNewsBloc extends Cubit<PaginationState<NewsItemEntity>> {
   late final GetNewsUseCase _useCase;
@@ -16,6 +16,8 @@ class GetNewsBloc extends Cubit<PaginationState<NewsItemEntity>> {
   GetNewsBloc() : super(const PaginationInitialState()) {
     _useCase = getIt<GetNewsUseCase>();
   }
+
+  List<NewsItemEntity> get allItems => _items;
 
   bool get _hasMore => _pagination?.hasNextPage ?? true;
 

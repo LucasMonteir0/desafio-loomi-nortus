@@ -8,12 +8,14 @@ import "app_button.dart";
 class CustomAppBar extends StatefulWidget {
   final VoidCallback? onMenuPressed;
   final ValueChanged<String>? onSearchSubmitted;
+  final VoidCallback? onCloseSearch;
   final String searchHint;
 
   const CustomAppBar({
     this.onMenuPressed,
     this.onSearchSubmitted,
     this.searchHint = "Pesquisar...",
+    this.onCloseSearch,
     super.key,
   });
 
@@ -42,6 +44,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     setState(() {
       _isSearching = false;
       _searchController.clear();
+      widget.onCloseSearch?.call();
     });
   }
 

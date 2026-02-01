@@ -1,8 +1,8 @@
 import "package:equatable/equatable.dart";
 
-import "../../../commons/core/domain/entities/base_error.dart";
-import "../../../commons/core/domain/entities/pagination.dart";
-import "../../../commons/utils/errors/errors.dart";
+import "../../core/domain/entities/base_error.dart";
+import "../../core/domain/entities/pagination.dart";
+import "../errors/errors.dart";
 
 sealed class PaginationState<T> extends Equatable {
   const PaginationState();

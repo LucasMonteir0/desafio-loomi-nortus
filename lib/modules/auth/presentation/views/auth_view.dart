@@ -2,8 +2,11 @@ import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_svg/svg.dart";
+import "package:go_router/go_router.dart";
 
+import "../../../commons/config/app_router.dart";
 import "../../../commons/config/dependency_injection.dart";
+import "../../../commons/config/routes.dart";
 import "../../../commons/presentation/components/app_button.dart";
 import "../../../commons/presentation/components/app_checkbox.dart";
 import "../../../commons/presentation/components/app_tab_bar.dart";
@@ -15,6 +18,7 @@ import "../../../commons/utils/resources/app_images.dart";
 import "../../../commons/utils/states/base_state.dart";
 import "../../../commons/utils/validators/app_input_validator.dart";
 import "../blocs/sign_in_bloc.dart";
+import "../blocs/sign_up_bloc.dart";
 
 part "forms/sign_in_form.dart";
 part "forms/sign_up_form.dart";
@@ -26,8 +30,7 @@ class AuthView extends StatefulWidget {
   State<AuthView> createState() => _AuthViewState();
 }
 
-class _AuthViewState extends State<AuthView>
-    with SingleTickerProviderStateMixin {
+class _AuthViewState extends State<AuthView> with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -132,7 +135,10 @@ class _AuthViewState extends State<AuthView>
                                 alignment: Alignment.topCenter,
                                 child: _tabController.index == 0
                                     ? const _SignInForm()
-                                    : const _SignUpForm(),
+                                    : _SignUpForm(
+                                        onSuccess: () =>
+                                            _tabController.animateTo(0),
+                                      ),
                               ),
                             ),
                             if (_tabController.index == 0) ...[

@@ -48,4 +48,23 @@ class AppInputValidator {
 
     return null;
   }
+
+  static String? Function(String?) confirmPassword(
+    String Function() getPassword, {
+    String? message,
+  }) {
+    return (String? value) {
+      final isEmpty = empty(value, message: message);
+
+      if (isEmpty != null) {
+        return isEmpty;
+      }
+
+      if (value != getPassword()) {
+        return message ?? "As senhas não coincidem";
+      }
+
+      return null;
+    };
+  }
 }

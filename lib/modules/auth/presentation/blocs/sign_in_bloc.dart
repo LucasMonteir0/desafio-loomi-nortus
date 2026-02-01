@@ -1,6 +1,7 @@
 import "package:flutter_bloc/flutter_bloc.dart";
 
 import "../../../commons/config/dependency_injection.dart";
+import "../../../commons/utils/cache/app_cache.dart";
 import "../../../commons/utils/states/base_state.dart";
 import "../../core/domain/use_cases/sign_in/sign_in_use_case.dart";
 
@@ -10,12 +11,17 @@ class SignInBloc extends Cubit<BaseState> {
     useCase = getIt<SignInUseCase>();
   }
 
-  void call(String login, String password) async {
+  void call({
+    required String login,
+    required String password,
+    required bool rememberUser,
+  }) async {
     emit(const LoadingState());
 
     final result = await useCase.call(login, password);
 
     if (result.isSuccess) {
+      AppCache.instance.setRememberUser(rememberUser);
       emit(SuccessState<bool>(result.data!));
       return;
     }

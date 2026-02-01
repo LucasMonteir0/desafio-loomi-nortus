@@ -25,19 +25,23 @@ class AuthDataSourceImpl implements AuthDataSource {
       }
 
       final body = {"login": login, "password": password};
-      await _http.post(Urls.baseUrl, data: body);
+      await _http.post("${Urls.baseUrl}/auth", data: body);
 
       return ResultWrapper.success(true);
     } on ApiError catch (e) {
       final error = handleError(e.statusCode);
       return ResultWrapper.error(error);
     } catch (e) {
-      return ResultWrapper.error(UnknownError());
+      return ResultWrapper.error(
+        UnknownError(message: "Login ou senha inválidos."),
+      );
     }
   }
 
   @override
   Future<ResultWrapper<bool>> signUp(String login, String password) async {
+    await Future.delayed(const Duration(seconds: 3));
+
     await Future.delayed(const Duration(seconds: 3));
 
     //Simular um registro de novo usuário. Validações que deveriam ser feitas pelo lado do backend.

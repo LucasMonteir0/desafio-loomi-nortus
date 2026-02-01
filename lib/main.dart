@@ -8,5 +8,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
   await AppCache.instance.init();
-  runApp(App());
+  runApp(const App());
 }

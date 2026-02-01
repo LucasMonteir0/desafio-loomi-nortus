@@ -12,6 +12,7 @@ abstract class AppButton extends StatelessWidget {
   final double? radius;
   final Color? color;
   final TextStyle? textStyle;
+  final TextDecoration? textDecoration;
 
   const AppButton({
     required this.text,
@@ -24,6 +25,7 @@ abstract class AppButton extends StatelessWidget {
     this.radius,
     this.color,
     this.textStyle,
+    this.textDecoration,
   });
 
   const factory AppButton.primary({
@@ -44,6 +46,7 @@ abstract class AppButton extends StatelessWidget {
     bool isEnabled,
     Color? color,
     TextStyle? textStyle,
+    TextDecoration? textDecoration,
   }) = _TextButton;
 }
 
@@ -106,6 +109,7 @@ class _TextButton extends AppButton {
     super.isEnabled,
     super.color,
     super.textStyle,
+    super.textDecoration,
   });
 
   @override
@@ -137,7 +141,9 @@ class _TextButton extends AppButton {
                   TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline,
+
+                    //TODO PASSE O DECORATION UNDERLINE POR PARAMETRO
+                    decoration: textDecoration ?? TextDecoration.underline,
                     decorationColor: effectiveColor,
                   ),
             ),

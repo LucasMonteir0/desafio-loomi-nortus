@@ -7,6 +7,8 @@ import "../../auth/core/data/repositories/auth_repository_impl.dart";
 import "../../auth/core/domain/repositories/auth_repository.dart";
 import "../../auth/core/domain/use_cases/sign_in/sign_in_use_case.dart";
 import "../../auth/core/domain/use_cases/sign_in/sign_in_use_case_impl.dart";
+import "../../auth/presentation/blocs/sign_in_bloc.dart";
+import "../../auth/presentation/blocs/sign_up_bloc.dart";
 import "../core/data/services/http_service_impl.dart";
 import "../core/domain/services/http_service.dart";
 
@@ -28,5 +30,7 @@ class DependencyInjection {
     getIt.registerFactory<SignInUseCase>(() => SignInUseCaseImpl());
 
     //BLOCS
+    getIt.registerFactory<SignUpBloc>(() => SignUpBloc());
+    getIt.registerFactory<SignInBloc>(() => SignInBloc());
   }
 }

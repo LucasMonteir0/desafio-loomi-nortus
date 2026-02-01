@@ -10,4 +10,12 @@ class AppCache {
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
+
+  void setRememberUser(bool value) {
+    _prefs.setBool("rememberUser", value);
+  }
+
+  bool getRememberUser() {
+    return _prefs.getBool("rememberUser") ?? false;
+  }
 }

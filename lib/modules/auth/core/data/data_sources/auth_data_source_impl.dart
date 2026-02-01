@@ -1,4 +1,3 @@
-import "package:dio/dio.dart";
 
 import "../../../../commons/config/dependency_injection.dart";
 import "../../../../commons/config/urls.dart";

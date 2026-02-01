@@ -1,7 +1,7 @@
 part of "../auth_view.dart";
 
 class _SignInForm extends StatefulWidget {
-  const _SignInForm({super.key});
+  const _SignInForm();
 
   @override
   State<_SignInForm> createState() => _SignInFormState();

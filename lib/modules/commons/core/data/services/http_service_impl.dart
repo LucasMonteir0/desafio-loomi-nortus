@@ -90,8 +90,8 @@ class HttpServiceImpl implements HttpService {
     if (response.data is String) {
       String body = response.data as String;
       // Remove trailing commas before closing braces/brackets
-      body = body.replaceAll(RegExp(r',\s*}'), '}');
-      body = body.replaceAll(RegExp(r',\s*]'), ']');
+      body = body.replaceAll(RegExp(r",\s*}"), "}");
+      body = body.replaceAll(RegExp(r",\s*]"), "]");
       try {
         response.data = jsonDecode(body);
       } catch (e) {

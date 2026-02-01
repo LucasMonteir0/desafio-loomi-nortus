@@ -14,6 +14,7 @@ class _SignInFormState extends State<_SignInForm> {
   final _formKey = GlobalKey<FormState>();
 
   late final ValueNotifier<bool> _showPasswordInput;
+  bool? _rememberUser;
 
   @override
   void initState() {
@@ -26,6 +27,16 @@ class _SignInFormState extends State<_SignInForm> {
     _loginController.addListener(() {
       _showPasswordInput.value = _loginController.text.isNotEmpty;
     });
+  }
+
+  void _handleBloc() {
+    if (_formKey.currentState!.validate()) {
+      _bloc.call(
+        login: _loginController.text,
+        password: _passwordController.text,
+        rememberUser: _rememberUser ?? false,
+      );
+    }
   }
 
   @override
@@ -73,10 +84,7 @@ class _SignInFormState extends State<_SignInForm> {
                           obscureText: true,
                           textInputAction: TextInputAction.done,
                           validator: AppInputValidator.empty,
-                          onSubmitted: (_) => _bloc.call(
-                            _loginController.text,
-                            _passwordController.text,
-                          ),
+                          onSubmitted: (_) => _handleBloc(),
                         )
                         .animate()
                         .fadeIn(duration: 300.ms)
@@ -85,6 +93,7 @@ class _SignInFormState extends State<_SignInForm> {
                     AppCheckbox(
                           label: "Mantenha-me conectado",
                           onChanged: (value) {
+                            _rememberUser = value;
                             AppCache.instance.setRememberUser(value);
                           },
                         )
@@ -118,14 +127,7 @@ class _SignInFormState extends State<_SignInForm> {
                 builder: (context, state) {
                   return AppButton.primary(
                     text: "Entrar",
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _bloc.call(
-                          _loginController.text,
-                          _passwordController.text,
-                        );
-                      }
-                    },
+                    onPressed: _handleBloc,
                     isLoading: state.isLoading,
                   );
                 },

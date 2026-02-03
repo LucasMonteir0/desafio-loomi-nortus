@@ -11,8 +11,15 @@ class NewsCard extends StatelessWidget {
   final NewsItemEntity news;
   final VoidCallback? onTap;
   final ValueChanged<bool>? onFavTap;
+  final bool showFavoriteIcon;
 
-  const NewsCard({required this.news, this.onTap, super.key, this.onFavTap});
+  const NewsCard({
+    required this.news,
+    this.onTap,
+    super.key,
+    this.onFavTap,
+    this.showFavoriteIcon = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,11 @@ class NewsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _NewsCardImage(news: news, onFavTap: onFavTap),
+          _NewsCardImage(
+            news: news,
+            onFavTap: onFavTap,
+            showFavoriteIcon: showFavoriteIcon,
+          ),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -46,8 +57,13 @@ class NewsCard extends StatelessWidget {
 class _NewsCardImage extends StatelessWidget {
   final NewsItemEntity news;
   final ValueChanged<bool>? onFavTap;
+  final bool showFavoriteIcon;
 
-  const _NewsCardImage({required this.news, this.onFavTap});
+  const _NewsCardImage({
+    required this.news,
+    this.onFavTap,
+    this.showFavoriteIcon = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,21 +75,22 @@ class _NewsCardImage extends StatelessWidget {
           width: double.infinity,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
-        Positioned(
-          top: 12,
-          right: 12,
-          child: FavoriteIcon(
-            initialValue: news.isFavorite,
-            onFavTap: (value) {
-              if (value) {
-                AppCache.instance.addFavoriteNews(id: news.id);
-              } else {
-                AppCache.instance.removeFavoriteNews(id: news.id);
-              }
-              onFavTap?.call(value);
-            },
+        if (showFavoriteIcon)
+          Positioned(
+            top: 12,
+            right: 12,
+            child: FavoriteIcon(
+              initialValue: news.isFavorite,
+              onFavTap: (value) {
+                if (value) {
+                  AppCache.instance.addFavoriteNews(news: news);
+                } else {
+                  AppCache.instance.removeFavoriteNews(news: news);
+                }
+                onFavTap?.call(value);
+              },
+            ),
           ),
-        ),
       ],
     );
   }

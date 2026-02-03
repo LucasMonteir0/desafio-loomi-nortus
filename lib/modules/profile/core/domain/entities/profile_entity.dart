@@ -1,6 +1,8 @@
+import "package:equatable/equatable.dart";
+
 import "address_entity.dart";
 
-class ProfileEntity {
+class ProfileEntity extends Equatable {
   final int id;
   final String name;
   final String email;
@@ -20,4 +22,16 @@ class ProfileEntity {
     required this.address,
     required this.updatedAt,
   });
+
+  @override
+  List<Object> get props => [
+    id,
+    name,
+    email,
+    language,
+    dateFormat,
+    timezone,
+    address,
+    updatedAt,
+  ];
 }

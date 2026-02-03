@@ -76,9 +76,9 @@ class _NewsDetailsRelatedNewsCard extends StatelessWidget {
                   size: 24,
                   onFavTap: (value) {
                     if (value) {
-                      AppCache.instance.addFavoriteNews(id: news.id);
+                      AppCache.instance.addFavoriteNews(news: news);
                     } else {
-                      AppCache.instance.removeFavoriteNews(id: news.id);
+                      AppCache.instance.removeFavoriteNews(news: news);
                     }
                     onFavTap.call(value);
                   },

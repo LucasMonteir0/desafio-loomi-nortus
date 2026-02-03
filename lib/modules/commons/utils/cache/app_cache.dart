@@ -1,4 +1,7 @@
+import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
+
+import "../../../news/core/domain/entities/news_item_entity.dart";
 
 class AppCache {
   AppCache._();
@@ -8,7 +11,16 @@ class AppCache {
   late final SharedPreferences _prefs;
 
   late bool _isLogged;
-  final List<int> _favoriteNewsIds = [];
+  final Set<NewsItemEntity> _favoriteNews = {};
+  final ValueNotifier<List<NewsItemEntity>> _favoriteNewsNotifier =
+      ValueNotifier([]);
+
+  ValueNotifier<List<NewsItemEntity>> get favoriteNewsNotifier =>
+      _favoriteNewsNotifier;
+
+  void _updateFavoriteNews() {
+    _favoriteNewsNotifier.value = List.unmodifiable(_favoriteNews);
+  }
 
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -31,21 +43,27 @@ class AppCache {
     _isLogged = value;
   }
 
-  bool isFavoriteNews(int id) {
-    return _favoriteNewsIds.contains(id);
+  bool isFavoriteNews(NewsItemEntity news) {
+    return _favoriteNews.contains(news);
   }
 
-  void addFavoriteNews({required int id}) {
-    if (!_favoriteNewsIds.contains(id)) {
-      _favoriteNewsIds.add(id);
+  bool isFavoriteNewsById(int id) {
+    return _favoriteNews.any((element) => element.id == id);
+  }
+
+  void addFavoriteNews({required NewsItemEntity news}) {
+    if (!_favoriteNews.any((e) => e.id == news.id)) {
+      _favoriteNews.add(news);
     }
+    _updateFavoriteNews();
   }
 
-  void removeFavoriteNews({required int id}) {
-    _favoriteNewsIds.remove(id);
+  void removeFavoriteNews({required NewsItemEntity news}) {
+    _favoriteNews.removeWhere((e) => e.id == news.id);
+    _updateFavoriteNews();
   }
 
-  List<int> getFavoriteNewsIds() {
-    return List.unmodifiable(_favoriteNewsIds);
+  List<NewsItemEntity> getFavoriteNews() {
+    return List.unmodifiable(_favoriteNews);
   }
 }

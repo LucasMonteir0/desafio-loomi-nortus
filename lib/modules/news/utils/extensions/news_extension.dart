@@ -13,7 +13,7 @@ extension RelatedNewsExtension on RelatedNewsEntity {
       categories: categories,
       authors: authors,
       publishedAt: publishedAt,
-      isFavorite: AppCache.instance.isFavoriteNews(id),
+      isFavorite: AppCache.instance.isFavoriteNewsById(id),
     );
   }
 }

@@ -25,10 +25,11 @@ class _NewsDetailsHeaderRow extends StatelessWidget {
         FavoriteIcon(
           initialValue: news.isFavorite,
           onFavTap: (value) {
+            final newsItem = news.toNewsItem();
             if (value) {
-              AppCache.instance.addFavoriteNews(id: news.id);
+              AppCache.instance.addFavoriteNews(news: newsItem);
             } else {
-              AppCache.instance.removeFavoriteNews(id: news.id);
+              AppCache.instance.removeFavoriteNews(news: newsItem);
             }
             shouldUpdateOnPop(true);
           },

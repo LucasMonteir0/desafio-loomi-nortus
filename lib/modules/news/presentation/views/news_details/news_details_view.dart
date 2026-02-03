@@ -20,6 +20,7 @@ import "../../../core/domain/entities/news_detail_entity.dart";
 import "../../../core/domain/entities/news_image_entity.dart";
 import "../../../core/domain/entities/news_item_entity.dart";
 import "../../../core/domain/entities/related_news_entity.dart";
+import "../../../utils/extensions/news_details_extension.dart";
 import "../../../utils/extensions/news_extension.dart";
 import "../../blocs/get_news_detail_bloc.dart";
 import "../../components/favorite_icon.dart";

@@ -1,4 +1,6 @@
-class AddressEntity {
+import "package:equatable/equatable.dart";
+
+class AddressEntity extends Equatable {
   final String zipCode;
   final String country;
   final String street;
@@ -18,4 +20,16 @@ class AddressEntity {
     required this.city,
     required this.state,
   });
+
+  @override
+  List<Object> get props => [
+    zipCode,
+    country,
+    street,
+    number,
+    complement,
+    neighborhood,
+    city,
+    state,
+  ];
 }

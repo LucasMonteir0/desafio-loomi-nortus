@@ -9,12 +9,16 @@ import "../../../commons/presentation/components/app_button.dart";
 import "../../../commons/presentation/components/app_error_widget.dart";
 import "../../../commons/presentation/components/app_progress_indicator.dart";
 import "../../../commons/presentation/components/custom_app_bar.dart";
+import "../../../commons/utils/cache/app_cache.dart";
 import "../../../commons/utils/resources/app_colors.dart";
 import "../../../commons/utils/states/base_state.dart";
+import "../../../news/presentation/components/news_card.dart";
+
 import "../../core/domain/entities/profile_entity.dart";
 import "../blocs/get_profile_bloc.dart";
 
 part "parts/profile_header.dart";
+part "parts/profile_favorite_news.dart";
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -89,40 +93,42 @@ class _ProfileSuccessWidgetState extends State<_ProfileSuccessWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ProfileHeader(profile: widget.profile),
-          const SizedBox(height: 24),
-          AppButton.outlined(
-            text: "Configurações de usuário",
-            icon: Icons.settings_outlined,
-            onPressed: () =>
-                context.push(Routes.userSettings, extra: widget.profile),
-          ),
-          const SizedBox(height: 16),
-          BlocConsumer<SignOutBloc, BaseState>(
-            bloc: _signOutBloc,
-            listener: (context, state) {
-              if (state.isSuccess) {
-                context.go(Routes.auth);
-              }
-            },
-            builder: (context, state) {
-              return AppButton.outlined(
-                text: "Sair da conta",
-                isLoading: state.isLoading,
-                borderColor: AppColors.error,
-                contentColor: AppColors.error,
-                onPressed: _signOutBloc.call,
-              );
-            },
-          ),
-          const SizedBox(height: 32),
-          // const _ProfileFavoriteNews(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _ProfileHeader(profile: widget.profile),
+            const SizedBox(height: 24),
+            AppButton.outlined(
+              text: "Configurações de usuário",
+              icon: Icons.settings_outlined,
+              onPressed: () =>
+                  context.push(Routes.userSettings, extra: widget.profile),
+            ),
+            const SizedBox(height: 16),
+            BlocConsumer<SignOutBloc, BaseState>(
+              bloc: _signOutBloc,
+              listener: (context, state) {
+                if (state.isSuccess) {
+                  context.go(Routes.auth);
+                }
+              },
+              builder: (context, state) {
+                return AppButton.outlined(
+                  text: "Sair da conta",
+                  isLoading: state.isLoading,
+                  borderColor: AppColors.error,
+                  contentColor: AppColors.error,
+                  onPressed: _signOutBloc.call,
+                );
+              },
+            ),
+            const SizedBox(height: 32),
+            const _ProfileFavoriteNews(),
+          ],
+        ),
       ),
     );
   }

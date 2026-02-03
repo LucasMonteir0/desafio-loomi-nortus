@@ -7,6 +7,7 @@ import "package:timeago/timeago.dart" as timeago;
 import "../../../../commons/config/dependency_injection.dart";
 import "../../../../commons/config/routes.dart";
 import "../../../../commons/presentation/components/app_error_widget.dart";
+import "../../../../commons/presentation/components/app_footer.dart";
 import "../../../../commons/presentation/components/app_network_image.dart";
 import "../../../../commons/presentation/components/app_progress_indicator.dart";
 import "../../../../commons/presentation/components/custom_app_bar.dart";
@@ -70,28 +71,39 @@ class _NewsDetailsViewState extends State<NewsDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: BlocBuilder<GetNewsDetailBloc, BaseState>(
-        bloc: _bloc,
-        builder: (context, state) {
-          return switch (state) {
-            InitialState() ||
-            LoadingState() => const Center(child: AppProgressIndicator()),
-            SuccessState<NewsDetailsEntity>(:final data) => _NewsDetailsContent(
-              news: data,
-              onBackPressed: () {
-                context.pop(shouldUpdateOnPop);
-              },
-              onRelatedNewsTap: _onRelatedNewsTap,
-              shouldUpdateOnPop: (value) {
-                shouldUpdateOnPop = value;
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SafeArea(
+            bottom: false,
+            child: CustomAppBar(
+              onBackPressed: () => context.pop(shouldUpdateOnPop),
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<GetNewsDetailBloc, BaseState>(
+              bloc: _bloc,
+              builder: (context, state) {
+                return switch (state) {
+                  InitialState() ||
+                  LoadingState() => const Center(child: AppProgressIndicator()),
+                  SuccessState<NewsDetailsEntity>(:final data) =>
+                    _NewsDetailsContent(
+                      news: data,
+                      onRelatedNewsTap: _onRelatedNewsTap,
+                      shouldUpdateOnPop: (value) {
+                        shouldUpdateOnPop = value;
+                      },
+                    ),
+                  ErrorState() => AppErrorWidget(
+                    onRetry: () => _bloc.call(widget.newsId),
+                  ),
+                  _ => const SizedBox.shrink(),
+                };
               },
             ),
-            ErrorState() => AppErrorWidget(
-              onRetry: () => _bloc.call(widget.newsId),
-            ),
-            _ => const SizedBox.shrink(),
-          };
-        },
+          ),
+        ],
       ),
     );
   }
@@ -99,102 +111,97 @@ class _NewsDetailsViewState extends State<NewsDetailsView> {
 
 class _NewsDetailsContent extends StatelessWidget {
   final NewsDetailsEntity news;
-  final VoidCallback onBackPressed;
   final ValueChanged<int> onRelatedNewsTap;
   final ValueChanged<bool> shouldUpdateOnPop;
 
   const _NewsDetailsContent({
     required this.news,
-    required this.onBackPressed,
     required this.onRelatedNewsTap,
     required this.shouldUpdateOnPop,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomAppBar(onBackPressed: onBackPressed),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _NewsDetailsHeaderRow(
-                    categories: news.categories,
-                    news: news,
-                    shouldUpdateOnPop: shouldUpdateOnPop,
-                  ).animate().fade().slideY(
-                    begin: 0.1,
-                    curve: Curves.easeOut,
-                    duration: 400.ms,
-                  ),
-                  const SizedBox(height: 12),
-                  _NewsDetailsTitle(title: news.title)
-                      .animate()
-                      .fade(delay: 100.ms, duration: 400.ms)
-                      .slideY(begin: 0.1, curve: Curves.easeOut),
-                  const SizedBox(height: 12),
-                  _NewsDetailsPublishedInfo(publishedAt: news.publishedAt)
-                      .animate()
-                      .fade(delay: 150.ms, duration: 400.ms)
-                      .slideY(begin: 0.1, curve: Curves.easeOut),
-                  const SizedBox(height: 16),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NewsDetailsHeaderRow(
+                  categories: news.categories,
+                  news: news,
+                  shouldUpdateOnPop: shouldUpdateOnPop,
+                ).animate().fade().slideY(
+                  begin: 0.1,
+                  curve: Curves.easeOut,
+                  duration: 400.ms,
+                ),
+                const SizedBox(height: 12),
+                _NewsDetailsTitle(title: news.title)
+                    .animate()
+                    .fade(delay: 100.ms, duration: 400.ms)
+                    .slideY(begin: 0.1, curve: Curves.easeOut),
+                const SizedBox(height: 12),
+                _NewsDetailsPublishedInfo(publishedAt: news.publishedAt)
+                    .animate()
+                    .fade(delay: 150.ms, duration: 400.ms)
+                    .slideY(begin: 0.1, curve: Curves.easeOut),
+                const SizedBox(height: 16),
+              ],
             ),
-            _NewsDetailsImage(image: news.image)
-                .animate()
-                .fade(delay: 200.ms, duration: 400.ms)
-                .slideY(begin: 0.1, curve: Curves.easeOut),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _NewsDetailsSummary(summary: news.newsResume)
-                      .animate()
-                      .fade(delay: 300.ms, duration: 400.ms)
-                      .slideY(begin: 0.1, curve: Curves.easeOut),
+          ),
+          _NewsDetailsImage(image: news.image)
+              .animate()
+              .fade(delay: 200.ms, duration: 400.ms)
+              .slideY(begin: 0.1, curve: Curves.easeOut),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _NewsDetailsSummary(summary: news.newsResume)
+                    .animate()
+                    .fade(delay: 300.ms, duration: 400.ms)
+                    .slideY(begin: 0.1, curve: Curves.easeOut),
+                const SizedBox(height: 24),
+                _NewsDetailsDescription(description: news.description)
+                    .animate()
+                    .fade(delay: 400.ms, duration: 400.ms)
+                    .slideY(begin: 0.1, curve: Curves.easeOut),
+                const SizedBox(height: 16),
+                _NewsDetailsCategoriesRow(categories: news.categories)
+                    .animate()
+                    .fade(delay: 500.ms, duration: 400.ms)
+                    .slideY(begin: 0.1, curve: Curves.easeOut),
+                if (news.authors.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  _NewsDetailsDescription(description: news.description)
+                  _NewsDetailsAuthorSection(authors: news.authors)
                       .animate()
-                      .fade(delay: 400.ms, duration: 400.ms)
+                      .fade(delay: 600.ms, duration: 400.ms)
                       .slideY(begin: 0.1, curve: Curves.easeOut),
-                  const SizedBox(height: 16),
-                  _NewsDetailsCategoriesRow(categories: news.categories)
-                      .animate()
-                      .fade(delay: 500.ms, duration: 400.ms)
-                      .slideY(begin: 0.1, curve: Curves.easeOut),
-                  if (news.authors.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    _NewsDetailsAuthorSection(authors: news.authors)
-                        .animate()
-                        .fade(delay: 600.ms, duration: 400.ms)
-                        .slideY(begin: 0.1, curve: Curves.easeOut),
-                  ],
-                  if (news.relatedNews.isNotEmpty) ...[
-                    const SizedBox(height: 32),
-                    _NewsDetailsRelatedNews(
-                          relatedNews: news.relatedNews,
-                          onTap: onRelatedNewsTap,
-                          onFavTap: (value) {
-                            shouldUpdateOnPop(true);
-                          },
-                        )
-                        .animate()
-                        .fade(delay: 700.ms, duration: 400.ms)
-                        .slideY(begin: 0.1, curve: Curves.easeOut),
-                  ],
                 ],
-              ),
+                if (news.relatedNews.isNotEmpty) ...[
+                  const SizedBox(height: 32),
+                  _NewsDetailsRelatedNews(
+                        relatedNews: news.relatedNews,
+                        onTap: onRelatedNewsTap,
+                        onFavTap: (value) {
+                          shouldUpdateOnPop(true);
+                        },
+                      )
+                      .animate()
+                      .fade(delay: 700.ms, duration: 400.ms)
+                      .slideY(begin: 0.1, curve: Curves.easeOut),
+                ],
+              ],
             ),
-          ],
-        ),
+          ),
+          const AppFooter(),
+        ],
       ),
     );
   }

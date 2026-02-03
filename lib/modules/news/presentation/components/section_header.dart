@@ -16,7 +16,7 @@ class SectionHeader extends StatelessWidget {
       ),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         decoration: const BoxDecoration(
           color: AppColors.backgroundLight,
           border: Border.symmetric(

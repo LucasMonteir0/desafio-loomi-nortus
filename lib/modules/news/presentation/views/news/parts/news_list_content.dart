@@ -62,7 +62,10 @@ class _NewsListContent extends StatelessWidget {
           }
 
           final item = filteredItems[index];
-          return NewsCard(news: item, onTap: () => onNewsTap(item.id));
+          return NewsCard(news: item, onTap: () => onNewsTap(item.id))
+              .animate()
+              .fade(duration: 400.ms, delay: (100 * index).ms)
+              .slideY(begin: 0.1, duration: 400.ms, curve: Curves.easeOut);
         },
       ),
     );

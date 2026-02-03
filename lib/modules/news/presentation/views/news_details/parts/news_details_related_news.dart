@@ -17,7 +17,7 @@ class _NewsDetailsRelatedNews extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SectionHeader(title: "Notícias Relacionadas"),
-        const SizedBox(height: 16),
+        const SizedBox(height: 24),
         GridView.builder(
           itemCount: relatedNews.length,
           physics: const NeverScrollableScrollPhysics(),

@@ -20,38 +20,8 @@ class _NewsDetailsHeaderRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: categories
-                .map(
-                  (category) => Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      border: Border.all(
-                        color: AppColors.primary.withValues(alpha: 0.7),
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Text(
-                      category,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-
+        NewsCategoryChip(category: categories.first),
+        const Spacer(),
         FavoriteIcon(
           initialValue: news.isFavorite,
           onFavTap: (value) {

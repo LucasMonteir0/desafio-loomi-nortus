@@ -12,7 +12,7 @@ class GetNewsDetailUseCaseImpl implements GetNewsDetailUseCase {
   }
 
   @override
-  Future<ResultWrapper<NewsDetailEntity>> call(int id) {
+  Future<ResultWrapper<NewsDetailsEntity>> call(int id) {
     return _repository.getNewsDetails(id);
   }
 }

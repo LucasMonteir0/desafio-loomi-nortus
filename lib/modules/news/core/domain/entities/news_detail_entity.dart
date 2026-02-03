@@ -3,7 +3,7 @@ import "news_image_entity.dart";
 import "read_also_entity.dart";
 import "related_news_entity.dart";
 
-class NewsDetailEntity {
+class NewsDetailsEntity {
   final int id;
   final String title;
   final NewsImageEntity image;
@@ -15,8 +15,9 @@ class NewsDetailEntity {
   final String description;
   final List<RelatedNewsEntity> relatedNews;
   final ReadAlsoEntity? readAlso;
+  final bool isFavorite;
 
-  const NewsDetailEntity({
+  const NewsDetailsEntity({
     required this.id,
     required this.title,
     required this.image,
@@ -27,6 +28,7 @@ class NewsDetailEntity {
     required this.authors,
     required this.description,
     required this.relatedNews,
+    required this.isFavorite,
     this.readAlso,
   });
 }

@@ -1,11 +1,12 @@
+import "../../../../commons/utils/cache/app_cache.dart";
 import "../../domain/entities/news_detail_entity.dart";
 import "author_model.dart";
 import "news_image_model.dart";
 import "read_also_model.dart";
 import "related_news_model.dart";
 
-class NewsDetailModel extends NewsDetailEntity {
-  const NewsDetailModel({
+class NewsDetailsModel extends NewsDetailsEntity {
+  const NewsDetailsModel({
     required super.id,
     required super.title,
     required super.image,
@@ -16,11 +17,12 @@ class NewsDetailModel extends NewsDetailEntity {
     required super.authors,
     required super.description,
     required super.relatedNews,
+    required super.isFavorite,
     super.readAlso,
   });
 
-  factory NewsDetailModel.fromJson(Map<String, dynamic> json) {
-    return NewsDetailModel(
+  factory NewsDetailsModel.fromJson(Map<String, dynamic> json) {
+    return NewsDetailsModel(
       id: json["id"] as int,
       title: json["title"] as String,
       image: NewsImageModel.fromJson(json["image"] as Map<String, dynamic>),
@@ -40,6 +42,7 @@ class NewsDetailModel extends NewsDetailEntity {
       readAlso: json["readAlso"] != null
           ? ReadAlsoModel.fromJson(json["readAlso"] as Map<String, dynamic>)
           : null,
+      isFavorite: AppCache.instance.isFavoriteNews(json["id"] as int),
     );
   }
 }

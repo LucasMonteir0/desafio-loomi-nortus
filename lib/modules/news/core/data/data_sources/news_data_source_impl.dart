@@ -47,7 +47,7 @@ class NewsDataSourceImpl implements NewsDataSource {
   }
 
   @override
-  Future<ResultWrapper<NewsDetailEntity>> getNewsDetails(int id) async {
+  Future<ResultWrapper<NewsDetailsEntity>> getNewsDetails(int id) async {
     try {
       final futures = await Future.wait([
         _http.get<Map<String, dynamic>>("${Urls.baseUrl}/news/$id/details"),
@@ -56,7 +56,7 @@ class NewsDataSourceImpl implements NewsDataSource {
 
       final response = futures.first;
 
-      final detail = NewsDetailModel.fromJson(response.data!);
+      final detail = NewsDetailsModel.fromJson(response.data!);
       return ResultWrapper.success(detail);
     } on ApiError catch (e) {
       final error = handleError(e.statusCode);

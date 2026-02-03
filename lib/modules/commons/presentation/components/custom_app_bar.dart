@@ -10,12 +10,14 @@ class CustomAppBar extends StatefulWidget {
   final ValueChanged<String>? onSearchSubmitted;
   final VoidCallback? onCloseSearch;
   final String searchHint;
+  final VoidCallback? onBackPressed;
 
   const CustomAppBar({
     this.onMenuPressed,
     this.onSearchSubmitted,
     this.searchHint = "Pesquisar...",
     this.onCloseSearch,
+    this.onBackPressed,
     super.key,
   });
 
@@ -54,6 +56,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.onBackPressed != null) {
+      return _BackButtonAppBar(onBackPressed: widget.onBackPressed);
+    }
+
     final bool showMenu = widget.onMenuPressed != null;
     final bool showSearch = widget.onSearchSubmitted != null;
 
@@ -61,18 +67,47 @@ class _CustomAppBarState extends State<CustomAppBar> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: const BoxDecoration(color: AppColors.backgroundLight),
       child: _isSearching
-          ? _buildSearchBar(showMenu)
-          : _buildNormalBar(showMenu, showSearch),
+          ? _SearchBar(
+              showMenu: showMenu,
+              onMenuPressed: widget.onMenuPressed,
+              controller: _searchController,
+              focusNode: _focusNode,
+              onSearchSubmitted: widget.onSearchSubmitted,
+              searchHint: widget.searchHint,
+              onSearch: _onSearch,
+              onClose: _stopSearch,
+            )
+          : _NormalBar(
+              showMenu: showMenu,
+              showSearch: showSearch,
+              onMenuPressed: widget.onMenuPressed,
+              onStartSearch: _startSearch,
+            ),
     );
   }
+}
 
-  Widget _buildNormalBar(bool showMenu, bool showSearch) {
+class _NormalBar extends StatelessWidget {
+  final bool showMenu;
+  final bool showSearch;
+  final VoidCallback? onMenuPressed;
+  final VoidCallback onStartSearch;
+
+  const _NormalBar({
+    required this.showMenu,
+    required this.showSearch,
+    required this.onStartSearch,
+    this.onMenuPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         if (showMenu)
           IconButton(
             icon: const Icon(Icons.menu, color: AppColors.secondaryDark),
-            onPressed: widget.onMenuPressed,
+            onPressed: onMenuPressed,
             constraints: const BoxConstraints(),
           ),
         if (showMenu) const SizedBox(width: 12),
@@ -88,20 +123,43 @@ class _CustomAppBarState extends State<CustomAppBar> {
         if (showSearch)
           IconButton(
             icon: const Icon(Icons.search, color: AppColors.secondaryDark),
-            onPressed: _startSearch,
+            onPressed: onStartSearch,
             constraints: const BoxConstraints(),
           ),
       ],
     );
   }
+}
 
-  Widget _buildSearchBar(bool showMenu) {
+class _SearchBar extends StatelessWidget {
+  final bool showMenu;
+  final VoidCallback? onMenuPressed;
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final ValueChanged<String>? onSearchSubmitted;
+  final String searchHint;
+  final VoidCallback onSearch;
+  final VoidCallback onClose;
+
+  const _SearchBar({
+    required this.showMenu,
+    required this.controller,
+    required this.focusNode,
+    required this.searchHint,
+    required this.onSearch,
+    required this.onClose,
+    this.onMenuPressed,
+    this.onSearchSubmitted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: [
         if (showMenu)
           IconButton(
             icon: const Icon(Icons.menu, color: AppColors.secondaryDark),
-            onPressed: widget.onMenuPressed,
+            onPressed: onMenuPressed,
             constraints: const BoxConstraints(),
           ),
         if (showMenu) const SizedBox(width: 12),
@@ -118,15 +176,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: _searchController,
-                    focusNode: _focusNode,
-                    onSubmitted: widget.onSearchSubmitted,
+                    controller: controller,
+                    focusNode: focusNode,
+                    onSubmitted: onSearchSubmitted,
                     style: const TextStyle(
                       fontSize: 16,
                       color: AppColors.secondaryDark,
                     ),
                     decoration: InputDecoration(
-                      hintText: widget.searchHint,
+                      hintText: searchHint,
                       hintStyle: TextStyle(
                         fontSize: 16,
                         color: AppColors.secondaryDark.withValues(alpha: 0.5),
@@ -140,7 +198,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 const SizedBox(width: 12),
                 AppButton.text(
                   text: "Pesquisar",
-                  onPressed: _onSearch,
+                  onPressed: onSearch,
                   textDecoration: TextDecoration.none,
                   color: AppColors.textSecondary,
                 ),
@@ -148,7 +206,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
           ),
         ),
-
         const SizedBox(width: 8),
         Container(
           decoration: BoxDecoration(
@@ -164,10 +221,38 @@ class _CustomAppBarState extends State<CustomAppBar> {
               size: 18,
             ),
             visualDensity: VisualDensity.compact,
-            onPressed: _stopSearch,
+            onPressed: onClose,
           ),
         ),
       ],
+    );
+  }
+}
+
+class _BackButtonAppBar extends StatelessWidget {
+  final VoidCallback? onBackPressed;
+  const _BackButtonAppBar({this.onBackPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: TextButton.icon(
+        onPressed: onBackPressed,
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          size: 18,
+          color: AppColors.secondary,
+        ),
+        label: const Text(
+          "Voltar",
+          style: TextStyle(
+            fontSize: 14,
+            color: AppColors.secondary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
     );
   }
 }

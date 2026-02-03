@@ -2,16 +2,17 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
-import "../../../commons/config/dependency_injection.dart";
-import "../../../commons/presentation/components/app_progress_indicator.dart"
+import "../../../../commons/config/dependency_injection.dart";
+import "../../../../commons/config/routes.dart";
+import "../../../../commons/presentation/components/app_progress_indicator.dart"
     show AppProgressIndicator;
-import "../../../commons/presentation/components/custom_app_bar.dart";
-import "../../../commons/utils/resources/app_colors.dart";
-import "../../../commons/utils/resources/app_images.dart";
-import "../../../commons/utils/states/pagination_state.dart";
-import "../../core/domain/entities/news_item_entity.dart";
-import "../blocs/get_news_bloc.dart";
-import "../components/news_card.dart";
+import "../../../../commons/presentation/components/custom_app_bar.dart";
+import "../../../../commons/utils/resources/app_colors.dart";
+import "../../../../commons/utils/resources/app_images.dart";
+import "../../../../commons/utils/states/pagination_state.dart";
+import "../../../core/domain/entities/news_item_entity.dart";
+import "../../blocs/get_news_bloc.dart";
+import "../../components/news_card.dart";
 
 part "parts/news_empty_state.dart";
 part "parts/news_no_search_results.dart";
@@ -57,8 +58,11 @@ class _NewsViewState extends State<NewsView> {
     });
   }
 
-  void _onNewsTap(int newsId) {
-    context.go("/news/$newsId");
+  void _onNewsTap(int newsId) async {
+    final result = await context.push<bool>("${Routes.news}/$newsId");
+    if (result == true) {
+      _bloc.refresh();
+    }
   }
 
   @override

@@ -18,7 +18,7 @@ class GetNewsDetailBloc extends Cubit<BaseState> {
     final result = await _useCase.call(id);
 
     if (result.isSuccess) {
-      emit(SuccessState<NewsDetailEntity>(result.data!));
+      emit(SuccessState<NewsDetailsEntity>(result.data!));
       return;
     }
 

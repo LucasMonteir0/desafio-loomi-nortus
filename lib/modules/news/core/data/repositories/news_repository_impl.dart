@@ -19,7 +19,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<ResultWrapper<NewsDetailEntity>> getNewsDetails(int id) {
+  Future<ResultWrapper<NewsDetailsEntity>> getNewsDetails(int id) {
     return _dataSource.getNewsDetails(id);
   }
 }

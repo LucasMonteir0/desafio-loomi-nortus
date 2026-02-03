@@ -28,7 +28,7 @@ class NewsItemModel extends NewsItemEntity {
       authors: (json["authors"] as List<dynamic>)
           .map((e) => AuthorModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      isFavorite: AppCache.instance.isFavoriteNews(id: json["id"] as int),
+      isFavorite: AppCache.instance.isFavoriteNews(json["id"] as int),
     );
   }
 }

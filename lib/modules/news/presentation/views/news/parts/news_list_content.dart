@@ -64,7 +64,7 @@ class _NewsListContent extends StatelessWidget {
           final item = filteredItems[index];
           return NewsCard(news: item, onTap: () => onNewsTap(item.id))
               .animate()
-              .fade(duration: 400.ms, delay: (100 * index).ms)
+              .fade(duration: 400.ms)
               .slideY(begin: 0.1, duration: 400.ms, curve: Curves.easeOut);
         },
       ),

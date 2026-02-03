@@ -36,6 +36,7 @@ abstract class AppButton extends StatelessWidget {
     bool isEnabled,
     double? width,
     double? height,
+    double? radius,
   }) = _PrimaryButton;
 
   const factory AppButton.text({
@@ -48,6 +49,20 @@ abstract class AppButton extends StatelessWidget {
     TextStyle? textStyle,
     TextDecoration? textDecoration,
   }) = _TextButton;
+
+  const factory AppButton.outlined({
+    required String text,
+    required VoidCallback? onPressed,
+    Key? key,
+    bool isLoading,
+    bool isEnabled,
+    double? width,
+    double? height,
+    double? radius,
+    Color? borderColor,
+    Color? contentColor,
+    IconData? icon,
+  }) = _OutlinedButton;
 }
 
 class _PrimaryButton extends AppButton {
@@ -59,6 +74,7 @@ class _PrimaryButton extends AppButton {
     super.isEnabled,
     super.width,
     super.height,
+    super.radius,
   });
 
   @override
@@ -77,7 +93,6 @@ class _PrimaryButton extends AppButton {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius ?? 16),
           ),
-          padding: const EdgeInsets.all(16),
         ),
         child: isLoading
             ? const SizedBox(
@@ -141,12 +156,83 @@ class _TextButton extends AppButton {
                   TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-
-                    //TODO PASSE O DECORATION UNDERLINE POR PARAMETRO
                     decoration: textDecoration ?? TextDecoration.underline,
                     decorationColor: effectiveColor,
                   ),
             ),
+    );
+  }
+}
+
+class _OutlinedButton extends AppButton {
+  final Color? borderColor;
+  final Color? contentColor;
+  final IconData? icon;
+
+  const _OutlinedButton({
+    required super.text,
+    required super.onPressed,
+    super.key,
+    super.isLoading,
+    super.isEnabled,
+    super.width,
+    super.height,
+    super.radius,
+    this.borderColor,
+    this.contentColor,
+    this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final effectiveBorderColor = borderColor ?? AppColors.textSecondary;
+    final effectiveContentColor = contentColor ?? AppColors.textSecondary;
+
+    return SizedBox(
+      width: width ?? double.infinity,
+      height: height ?? 40,
+      child: OutlinedButton(
+        onPressed: isEnabled && !isLoading ? onPressed : null,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: effectiveContentColor,
+          disabledForegroundColor: effectiveContentColor.withValues(alpha: 0.5),
+          side: BorderSide(
+            color: isEnabled
+                ? effectiveBorderColor
+                : effectiveBorderColor.withValues(alpha: 0.5),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radius ?? 100),
+          ),
+        ),
+        child: isLoading
+            ? SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    effectiveContentColor,
+                  ),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null)
+                    Icon(icon, color: effectiveContentColor, size: 16),
+                  const SizedBox(width: 8),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: effectiveContentColor,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

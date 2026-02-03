@@ -1,4 +1,3 @@
-
 import "../../../../commons/config/dependency_injection.dart";
 import "../../../../commons/config/urls.dart";
 import "../../../../commons/core/domain/entities/api/api_error.dart";
@@ -19,7 +18,7 @@ class AuthDataSourceImpl implements AuthDataSource {
     await Future.delayed(const Duration(seconds: 3));
     try {
       //Simular como se o usuário não existisse
-      if (login != "desafioLoomi" || password != "senha123") {
+      if (login != "desafioLoomi@gmail.com" || password != "senha123") {
         return ResultWrapper.error(
           NotFoundError(message: "Login ou senha inválidos."),
         );

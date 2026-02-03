@@ -44,4 +44,8 @@ class AppCache {
   void removeFavoriteNews({required int id}) {
     _favoriteNewsIds.remove(id);
   }
+
+  List<int> getFavoriteNewsIds() {
+    return List.unmodifiable(_favoriteNewsIds);
+  }
 }

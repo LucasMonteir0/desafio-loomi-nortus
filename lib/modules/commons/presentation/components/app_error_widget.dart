@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
-import "package:go_router/go_router.dart";
 
 import "../../utils/resources/app_colors.dart";
 import "app_footer.dart";
-import "custom_app_bar.dart";
 
 class AppErrorWidget extends StatelessWidget {
   final String? message;

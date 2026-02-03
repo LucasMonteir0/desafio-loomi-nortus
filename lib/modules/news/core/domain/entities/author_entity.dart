@@ -1,6 +1,8 @@
+import "package:equatable/equatable.dart";
+
 import "news_image_entity.dart";
 
-class AuthorEntity {
+class AuthorEntity extends Equatable {
   final String name;
   final NewsImageEntity? image;
   final String? photoUrl;
@@ -14,4 +16,7 @@ class AuthorEntity {
   });
 
   String get imageUrl => image?.src ?? photoUrl ?? "";
+
+  @override
+  List<Object?> get props => [name, image, photoUrl, description];
 }

@@ -1,6 +1,8 @@
+import "package:equatable/equatable.dart";
+
 import "author_entity.dart";
 
-class RelatedNewsEntity {
+class RelatedNewsEntity extends Equatable {
   final int id;
   final String title;
   final String imageUrl;
@@ -16,4 +18,14 @@ class RelatedNewsEntity {
     required this.publishedAt,
     required this.authors,
   });
+
+  @override
+  List<Object?> get props => [
+    id,
+    title,
+    imageUrl,
+    categories,
+    publishedAt,
+    authors,
+  ];
 }

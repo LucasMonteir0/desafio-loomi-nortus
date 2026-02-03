@@ -17,8 +17,6 @@ class GetNewsBloc extends Cubit<PaginationState<NewsItemEntity>> {
     _useCase = getIt<GetNewsUseCase>();
   }
 
-  List<NewsItemEntity> get allItems => _items;
-
   bool get _hasMore => _pagination?.hasNextPage ?? true;
 
   void load({bool refresh = false}) async {

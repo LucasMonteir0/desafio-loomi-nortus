@@ -64,7 +64,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
     final bool showSearch = widget.onSearchSubmitted != null;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      height: 72,
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: const BoxDecoration(color: AppColors.backgroundLight),
       child: _isSearching
           ? _SearchBar(

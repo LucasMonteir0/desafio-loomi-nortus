@@ -42,7 +42,7 @@ class NewsDetailsModel extends NewsDetailsEntity {
       readAlso: json["readAlso"] != null
           ? ReadAlsoModel.fromJson(json["readAlso"] as Map<String, dynamic>)
           : null,
-      isFavorite: AppCache.instance.isFavoriteNews(json["id"] as int),
+      isFavorite: AppCache.instance.isFavoriteNewsById(json["id"] as int),
     );
   }
 }

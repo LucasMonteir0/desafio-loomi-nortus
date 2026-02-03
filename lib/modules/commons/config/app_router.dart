@@ -5,7 +5,9 @@ import "../../auth/presentation/views/auth_view.dart";
 import "../../home/presentation/views/home_view.dart";
 import "../../news/presentation/views/news/news_view.dart";
 import "../../news/presentation/views/news_details/news_details_view.dart";
+import "../../profile/core/domain/entities/profile_entity.dart";
 import "../../profile/presentation/views/profile_view.dart";
+import "../../profile/presentation/views/user_settings_view.dart";
 import "../utils/guards/auth_guard.dart";
 import "routes.dart";
 
@@ -18,9 +20,15 @@ class AppRouter {
     initialLocation: Routes.news,
     redirect: AuthGuard.redirect,
     routes: [
-      GoRoute(path: Routes.auth, builder: (context, state) => const AuthView()),
+      GoRoute(path: Routes.auth, builder: (_, _) => const AuthView()),
+      GoRoute(
+        path: Routes.userSettings,
+        parentNavigatorKey: rootNavigatorKey,
+        builder: (_, state) =>
+            UserSettingsView(profile: state.extra as ProfileEntity),
+      ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) {
+        builder: (_, _, navigationShell) {
           return HomeView(navigationShell: navigationShell);
         },
         branches: [
@@ -33,7 +41,7 @@ class AppRouter {
                   GoRoute(
                     path: ":id",
                     parentNavigatorKey: rootNavigatorKey,
-                    builder: (context, state) {
+                    builder: (_, state) {
                       final newsId = int.parse(
                         state.pathParameters["id"] ?? "0",
                       );

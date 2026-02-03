@@ -21,7 +21,7 @@ class NewsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _NewsCardImage(news: news),
+          _NewsCardImage(news: news, onFavTap: onFavTap),
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
+import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
-import "package:flutter_animate/flutter_animate.dart";
 import "package:timeago/timeago.dart" as timeago;
 
 import "../../../../commons/config/dependency_injection.dart";
@@ -22,13 +22,12 @@ import "../../../core/domain/entities/related_news_entity.dart";
 import "../../../utils/extensions/news_extension.dart";
 import "../../blocs/get_news_detail_bloc.dart";
 import "../../components/favorite_icon.dart";
-import "../../components/news_card.dart";
 import "../../components/news_category_chip.dart";
 import "../../components/section_header.dart";
 
+part "parts/news_details_author_section.dart";
 part "parts/news_details_categories.dart";
 part "parts/news_details_image.dart";
-part "parts/news_details_author_section.dart";
 part "parts/news_details_related_news.dart";
 part "parts/news_details_summary.dart";
 

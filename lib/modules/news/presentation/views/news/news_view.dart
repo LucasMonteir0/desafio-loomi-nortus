@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_animate/flutter_animate.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../../commons/config/dependency_injection.dart";
@@ -16,8 +16,8 @@ import "../../blocs/get_news_bloc.dart";
 import "../../components/news_card.dart";
 
 part "parts/news_empty_state.dart";
-part "parts/news_no_search_results.dart";
 part "parts/news_list_content.dart";
+part "parts/news_no_search_results.dart";
 
 class NewsView extends StatefulWidget {
   const NewsView({super.key});

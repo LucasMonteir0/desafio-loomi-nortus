@@ -119,7 +119,7 @@ class _SignInFormState extends State<_SignInForm> {
                       context,
                       "Login realizado com sucesso",
                     );
-                    context.replace(Routes.home);
+                    context.go(Routes.news);
                   }
                   if (state is ErrorState) {
                     ToastHelper.showError(context, state.error.message);

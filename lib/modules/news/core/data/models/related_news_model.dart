@@ -25,4 +25,15 @@ class RelatedNewsModel extends RelatedNewsEntity {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "imageUrl": imageUrl,
+      "categories": categories,
+      "publishedAt": publishedAt.toIso8601String(),
+      "authors": authors.map((e) => (e as AuthorModel).toJson()).toList(),
+    };
+  }
 }

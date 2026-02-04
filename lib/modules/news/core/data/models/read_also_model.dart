@@ -6,4 +6,8 @@ class ReadAlsoModel extends ReadAlsoEntity {
   factory ReadAlsoModel.fromJson(Map<String, dynamic> json) {
     return ReadAlsoModel(id: json["id"] as int, title: json["title"] as String);
   }
+
+  Map<String, dynamic> toJson() {
+    return {"id": id, "title": title};
+  }
 }

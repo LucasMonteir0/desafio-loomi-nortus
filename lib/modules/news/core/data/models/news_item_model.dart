@@ -1,3 +1,5 @@
+import "dart:convert";
+
 import "../../../../commons/utils/cache/app_cache.dart";
 import "../../domain/entities/news_item_entity.dart";
 import "author_model.dart";
@@ -30,5 +32,43 @@ class NewsItemModel extends NewsItemEntity {
           .toList(),
       isFavorite: AppCache.instance.isFavoriteNewsById(json["id"] as int),
     );
+  }
+
+  factory NewsItemModel.fromDecodedJson(Map<String, dynamic> json) {
+    return NewsItemModel.fromJson({
+      "id": json["id"],
+      "title": json["title"],
+      "image": jsonDecode(json["image"] as String),
+      "categories": jsonDecode(json["categories"] as String),
+      "publishedAt": json["publishedAt"],
+      "summary": json["summary"],
+      "authors": jsonDecode(json["authors"] as String),
+    });
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "image": (image as NewsImageModel).toJson(),
+      "categories": categories,
+      "publishedAt": publishedAt.toIso8601String(),
+      "summary": summary,
+      "authors": authors.map((e) => (e as AuthorModel).toJson()).toList(),
+    };
+  }
+
+  Map<String, dynamic> toDecodedJson() {
+    return {
+      "id": id,
+      "title": title,
+      "image": jsonEncode((image as NewsImageModel).toJson()),
+      "categories": jsonEncode(categories),
+      "publishedAt": publishedAt.toIso8601String(),
+      "summary": summary,
+      "authors": jsonEncode(
+        authors.map((e) => (e as AuthorModel).toJson()).toList(),
+      ),
+    };
   }
 }

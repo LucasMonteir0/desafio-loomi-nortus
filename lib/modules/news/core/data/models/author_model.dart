@@ -19,4 +19,13 @@ class AuthorModel extends AuthorEntity {
       description: json["description"] as String,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "description": description,
+      "image": (image as NewsImageModel?)?.toJson(),
+      "photoUrl": photoUrl,
+    };
+  }
 }

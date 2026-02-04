@@ -1,16 +1,16 @@
-import "../../../../commons/config/dependency_injection.dart";
-import "../../../../commons/config/urls.dart";
-import "../../../../commons/core/data/models/pagination_model.dart";
-import "../../../../commons/core/domain/entities/api/api_error.dart";
-import "../../../../commons/core/domain/entities/pagination.dart";
-import "../../../../commons/core/domain/entities/result_wrapper.dart";
-import "../../../../commons/core/domain/services/http_service.dart";
-import "../../../../commons/utils/errors/errors.dart";
-import "../../../../commons/utils/errors/handle_errors.dart";
-import "../../domain/entities/news_detail_entity.dart";
-import "../../domain/entities/news_item_entity.dart";
-import "../models/news_detail_model.dart";
-import "../models/news_item_model.dart";
+import "../../../../../commons/config/dependency_injection.dart";
+import "../../../../../commons/config/urls.dart";
+import "../../../../../commons/core/data/models/pagination_model.dart";
+import "../../../../../commons/core/domain/entities/api/api_error.dart";
+import "../../../../../commons/core/domain/entities/pagination.dart";
+import "../../../../../commons/core/domain/entities/result_wrapper.dart";
+import "../../../../../commons/core/domain/services/http_service.dart";
+import "../../../../../commons/utils/errors/errors.dart";
+import "../../../../../commons/utils/errors/handle_errors.dart";
+import "../../../domain/entities/news_detail_entity.dart";
+import "../../../domain/entities/news_item_entity.dart";
+import "../../models/news_detail_model.dart";
+import "../../models/news_item_model.dart";
 import "news_data_source.dart";
 
 class NewsDataSourceImpl implements NewsDataSource {

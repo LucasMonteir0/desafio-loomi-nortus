@@ -9,4 +9,8 @@ class NewsImageModel extends NewsImageEntity {
       alt: json["alt"] as String,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {"src": src, "alt": alt};
+  }
 }

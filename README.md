@@ -1,6 +1,6 @@
 # Desafio Loomi - Noctus
 
-Projeto técnico desenvolvido para o desafio Flutter da Loomi/Noctus. O aplicativo consiste em uma plataforma de notícias com autenticação de usuários, listagem de notícias, detalhes e perfil do usuário com persistência offline.
+Projeto técnico desenvolvido para o desafio Flutter da Loomi. O aplicativo Nortus consiste em uma plataforma de notícias com autenticação de usuários, listagem de notícias, detalhes e perfil do usuário com persistência offline.
 
 ## 📸 Imagens do Projeto
 

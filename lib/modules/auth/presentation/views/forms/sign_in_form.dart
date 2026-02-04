@@ -8,7 +8,7 @@ class _SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<_SignInForm> {
-  late final TextEditingController _loginController;
+  late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final SignInBloc _bloc;
   final _formKey = GlobalKey<FormState>();
@@ -19,20 +19,20 @@ class _SignInFormState extends State<_SignInForm> {
   @override
   void initState() {
     super.initState();
-    _loginController = TextEditingController();
+    _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _bloc = getIt<SignInBloc>();
     _showPasswordInput = ValueNotifier<bool>(false);
 
-    _loginController.addListener(() {
-      _showPasswordInput.value = _loginController.text.isNotEmpty;
+    _emailController.addListener(() {
+      _showPasswordInput.value = _emailController.text.isNotEmpty;
     });
   }
 
   void _handleBloc() {
     if (_formKey.currentState!.validate()) {
       _bloc.call(
-        login: _loginController.text,
+        login: _emailController.text,
         password: _passwordController.text,
         rememberUser: _rememberUser ?? false,
       );
@@ -41,7 +41,7 @@ class _SignInFormState extends State<_SignInForm> {
 
   @override
   void dispose() {
-    _loginController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _bloc.close();
     _showPasswordInput.dispose();
@@ -57,11 +57,11 @@ class _SignInFormState extends State<_SignInForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppTextField(
-            labelText: "Digite seu login",
-            controller: _loginController,
+            labelText: "Digite seu E-mail",
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            validator: AppInputValidator.empty,
+            validator: AppInputValidator.email,
           ),
           AnimatedSize(
             duration: const Duration(milliseconds: 300),

@@ -130,4 +130,14 @@ class HttpServiceImpl implements HttpService {
   Future<ApiResponse<T>> patch<T>(String path, {dynamic data}) async {
     return await _request<T>(_dio.patch(path, data: data));
   }
+
+  @override
+  Future<ApiResponse<List<int>>> getBytes(String path) async {
+    return await _request<List<int>>(
+      _dio.get<List<int>>(
+        path,
+        options: Options(responseType: ResponseType.bytes),
+      ),
+    );
+  }
 }

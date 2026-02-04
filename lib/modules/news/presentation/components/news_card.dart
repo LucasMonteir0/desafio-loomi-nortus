@@ -71,6 +71,7 @@ class _NewsCardImage extends StatelessWidget {
       children: [
         AppNetworkImage(
           src: news.image.src,
+          bytes: news.image.bytes,
           height: 180,
           width: double.infinity,
           borderRadius: const BorderRadius.all(Radius.circular(16)),

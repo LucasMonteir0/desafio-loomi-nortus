@@ -4,8 +4,8 @@ import "../../../../commons/core/domain/entities/result_wrapper.dart";
 import "../../domain/entities/news_detail_entity.dart";
 import "../../domain/entities/news_item_entity.dart";
 import "../../domain/repositories/news_repository.dart";
-import "../data_sources/remote/news_data_source.dart";
 import "../data_sources/local/news_local_data_source.dart";
+import "../data_sources/remote/news_data_source.dart";
 import "../models/news_detail_model.dart";
 import "../models/news_item_model.dart";
 
@@ -27,14 +27,14 @@ class NewsRepositoryImpl implements NewsRepository {
 
       final models = items.map((e) => e as NewsItemModel).toList();
       if (models.isNotEmpty) {
-        await _localDataSource.saveNews(models);
+        _localDataSource.saveNews(models);
       }
       return result;
     }
 
     final localResult = await _localDataSource.getNews();
 
-    if (localResult.isSuccess) {
+    if (localResult.isSuccess && localResult.data != null) {
       return ResultWrapper.success(
         Pagination(
           data: localResult.data!,
@@ -54,12 +54,12 @@ class NewsRepositoryImpl implements NewsRepository {
     final result = await _remoteDataSource.getNewsDetails(id);
 
     if (result.isSuccess) {
-      await _localDataSource.saveNewsDetails(result.data as NewsDetailsModel);
+      _localDataSource.saveNewsDetails(result.data as NewsDetailsModel);
       return result;
     }
 
     final localResult = await _localDataSource.getNewsDetails(id);
-    if (localResult.isSuccess) {
+    if (localResult.isSuccess && localResult.data != null) {
       return ResultWrapper.success(localResult.data!);
     }
 

@@ -1,9 +1,12 @@
+import "dart:typed_data";
+
 import "package:flutter/material.dart";
 
 import "../../utils/resources/app_colors.dart";
 
 class AppNetworkImage extends StatelessWidget {
   final String src;
+  final Uint8List? bytes;
   final double? height;
   final double? width;
   final BoxFit fit;
@@ -13,6 +16,7 @@ class AppNetworkImage extends StatelessWidget {
 
   const AppNetworkImage({
     required this.src,
+    this.bytes,
     this.height,
     this.width,
     this.fit = BoxFit.cover,
@@ -24,20 +28,33 @@ class AppNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget image = Image.network(
-      src,
-      height: height,
-      width: width,
-      fit: fit,
-      errorBuilder: (context, error, stackTrace) =>
-          errorWidget ?? _DefaultErrorWidget(height: height),
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        }
-        return placeholder ?? _DefaultPlaceholder(height: height);
-      },
-    );
+    late Widget image;
+
+    if (bytes != null && bytes!.isNotEmpty) {
+      image = Image.memory(
+        bytes!,
+        height: height,
+        width: width,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) =>
+            errorWidget ?? _DefaultErrorWidget(height: height),
+      );
+    } else {
+      image = Image.network(
+        src,
+        height: height,
+        width: width,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) =>
+            errorWidget ?? _DefaultErrorWidget(height: height),
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          }
+          return placeholder ?? _DefaultPlaceholder(height: height);
+        },
+      );
+    }
 
     if (borderRadius != null) {
       return ClipRRect(borderRadius: borderRadius!, child: image);

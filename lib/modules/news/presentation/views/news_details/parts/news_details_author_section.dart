@@ -41,6 +41,7 @@ class _AuthorCard extends StatelessWidget {
             ClipOval(
               child: AppNetworkImage(
                 src: author.imageUrl,
+                bytes: author.image?.bytes,
                 width: 48,
                 height: 48,
               ),

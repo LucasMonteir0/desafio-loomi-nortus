@@ -12,6 +12,8 @@ import "../../auth/core/domain/use_cases/sign_up/sign_up_use_case_impl.dart";
 import "../../auth/presentation/blocs/sign_in_bloc.dart";
 import "../../auth/presentation/blocs/sign_out_bloc.dart";
 import "../../auth/presentation/blocs/sign_up_bloc.dart";
+import "../../news/core/data/data_sources/local/news_local_data_source.dart";
+import "../../news/core/data/data_sources/local/news_local_data_source_impl.dart";
 import "../../news/core/data/data_sources/remote/news_data_source.dart";
 import "../../news/core/data/data_sources/remote/news_data_source_impl.dart";
 import "../../news/core/data/repositories/news_repository_impl.dart";
@@ -33,11 +35,9 @@ import "../../profile/core/domain/use_cases/update_profile/update_profile_use_ca
 import "../../profile/presentation/blocs/get_profile_bloc.dart";
 import "../../profile/presentation/blocs/update_profile_bloc.dart";
 import "../core/data/services/http_service_impl.dart";
+import "../core/data/services/local_database_service_impl.dart";
 import "../core/domain/services/http_service.dart";
 import "../core/domain/services/local_databasse_service.dart";
-import "../core/data/services/local_database_service_impl.dart";
-import "../../news/core/data/data_sources/local/news_local_data_source.dart";
-import "../../news/core/data/data_sources/local/news_local_data_source_impl.dart";
 
 final getIt = GetIt.instance;
 
@@ -54,7 +54,7 @@ class DependencyInjection {
       () => LocalDatabaseServiceImpl(),
     );
     getIt.registerFactory<NewsLocalDataSource>(
-      () => NewsLocalDataSourceImpl(getIt()),
+      () => NewsLocalDataSourceImpl(getIt(), getIt()),
     );
 
     getIt.registerFactory<AuthRepository>(() => AuthRepositoryImpl());

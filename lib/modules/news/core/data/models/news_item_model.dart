@@ -35,10 +35,14 @@ class NewsItemModel extends NewsItemEntity {
   }
 
   factory NewsItemModel.fromDecodedJson(Map<String, dynamic> json) {
+    final imageMap =
+        jsonDecode(json["image"] as String) as Map<String, dynamic>;
+    imageMap["imageBytes"] = json["imageBytes"];
+
     return NewsItemModel.fromJson({
       "id": json["id"],
       "title": json["title"],
-      "image": jsonDecode(json["image"] as String),
+      "image": imageMap,
       "categories": jsonDecode(json["categories"] as String),
       "publishedAt": json["publishedAt"],
       "summary": json["summary"],

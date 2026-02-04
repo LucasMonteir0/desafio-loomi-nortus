@@ -19,7 +19,19 @@ class LocalDatabaseServiceImpl implements LocalDatabaseService {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, "news_app.db");
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(
+      path,
+      version: 2,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+    );
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute("ALTER TABLE news_items ADD COLUMN imageBytes BLOB");
+      await db.execute("ALTER TABLE news_details ADD COLUMN imageBytes BLOB");
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -31,7 +43,8 @@ class LocalDatabaseServiceImpl implements LocalDatabaseService {
         categories TEXT,
         publishedAt TEXT,
         summary TEXT,
-        authors TEXT
+        authors TEXT,
+        imageBytes BLOB
       )
     """);
 
@@ -47,7 +60,8 @@ class LocalDatabaseServiceImpl implements LocalDatabaseService {
         authors TEXT,
         description TEXT,
         relatedNews TEXT,
-        readAlso TEXT
+        readAlso TEXT,
+        imageBytes BLOB
       )
     """);
   }

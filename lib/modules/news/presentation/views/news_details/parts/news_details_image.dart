@@ -10,7 +10,12 @@ class _NewsDetailsImage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppNetworkImage(src: image.src, height: 220, width: double.infinity),
+        AppNetworkImage(
+          src: image.src,
+          bytes: image.bytes,
+          height: 220,
+          width: double.infinity,
+        ),
         if (image.alt.isNotEmpty)
           Center(
             child: Padding(

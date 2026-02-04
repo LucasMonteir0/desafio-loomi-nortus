@@ -13,4 +13,6 @@ abstract class HttpService {
   Future<ApiResponse<T>> delete<T>(String path, {dynamic data});
 
   Future<ApiResponse<T>> patch<T>(String path, {dynamic data});
+
+  Future<ApiResponse<List<int>>> getBytes(String path);
 }

@@ -15,6 +15,7 @@ import "../../../commons/utils/validators/app_input_validator.dart";
 import "../../core/domain/entities/address_entity.dart";
 import "../../core/domain/entities/profile_entity.dart";
 import "../../core/domain/entities/update_profile_entity.dart";
+import "../blocs/get_profile_bloc.dart";
 import "../blocs/update_profile_bloc.dart";
 import "../components/profile_dropdown.dart";
 import "../components/profile_section_text.dart";
@@ -387,6 +388,7 @@ class _UserSettingsViewState extends State<UserSettingsView> {
                                       bloc: _updateProfileBloc,
                                       listener: (context, state) {
                                         if (state.isSuccess) {
+                                          getIt<GetProfileBloc>().call();
                                           ToastHelper.showSuccess(
                                             context,
                                             "Perfil atualizado com sucesso!",

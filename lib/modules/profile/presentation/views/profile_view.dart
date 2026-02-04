@@ -38,12 +38,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   @override
-  void dispose() {
-    _getProfileBloc.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [

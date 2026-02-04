@@ -77,7 +77,7 @@ class DependencyInjection {
     getIt.registerFactory<SignOutBloc>(() => SignOutBloc());
     getIt.registerFactory<GetNewsBloc>(() => GetNewsBloc());
     getIt.registerFactory<GetNewsDetailBloc>(() => GetNewsDetailBloc());
-    getIt.registerFactory<GetProfileBloc>(() => GetProfileBloc());
+    getIt.registerLazySingleton<GetProfileBloc>(() => GetProfileBloc());
     getIt.registerFactory<UpdateProfileBloc>(() => UpdateProfileBloc());
   }
 }

@@ -12,6 +12,7 @@ class SignOutBloc extends Cubit<BaseState> {
     await Future.delayed(const Duration(seconds: 3));
     AppCache.instance.setIsLogged(false);
     AppCache.instance.setRememberUser(false);
+    AppCache.instance.setProfile(null);
 
     emit(const SuccessState<bool>(true));
   }

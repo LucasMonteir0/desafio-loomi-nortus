@@ -28,12 +28,14 @@ class ProfileModel extends ProfileEntity {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "name": name,
       "email": email,
       "language": language,
       "dateFormat": dateFormat,
       "timezone": timezone,
       "address": (address as AddressModel).toJson(),
+      "updatedAt": updatedAt.toIso8601String(),
     };
   }
 

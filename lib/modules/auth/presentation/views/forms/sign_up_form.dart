@@ -11,7 +11,7 @@ class _SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<_SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _loginController;
+  late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
   late final SignUpBloc _bloc;
@@ -20,14 +20,14 @@ class _SignUpFormState extends State<_SignUpForm> {
   void initState() {
     super.initState();
     _bloc = getIt<SignUpBloc>();
-    _loginController = TextEditingController();
+    _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _loginController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _bloc.close();
@@ -43,11 +43,11 @@ class _SignUpFormState extends State<_SignUpForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AppTextField(
-            labelText: "Digite seu login",
-            controller: _loginController,
+            labelText: "Digite seu E-mail",
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            validator: AppInputValidator.empty,
+            validator: AppInputValidator.email,
           ),
           const SizedBox(height: 16),
           AppTextField(
@@ -76,7 +76,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                   context,
                   "Cadastro realizado com sucesso",
                 );
-                _loginController.clear();
+                _emailController.clear();
                 _passwordController.clear();
                 _confirmPasswordController.clear();
                 widget.onSuccess();
@@ -91,7 +91,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                 isLoading: state.isLoading,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    _bloc.call(_loginController.text, _passwordController.text);
+                    _bloc.call(_emailController.text, _passwordController.text);
                   }
                 },
               );
